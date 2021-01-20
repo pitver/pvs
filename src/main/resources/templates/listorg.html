@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container col-sm-10">
+
+
+    <table class="table table-bordered">
+        <tr class="d-flex">
+            <th class="col-sm-1" scope="col">id</th>
+            <th class="col-sm-1" scope="col">ФИО гражданина</th>
+            <th class="col-sm-2" scope="col">Адрес регистрации</th>
+            <th class="col-sm" scope="col">Принимающая сторона</th>
+            <th class="col-sm" scope="col">Дата оказания услуги</th>
+            <th class="col-sm" scope="col">Плательщик</th>
+        </tr>
+
+        <tr class="d-flex" th:each=" listorg : ${Listunp}">
+            <td class="col-sm-1" scope="col" th:utext="${listorg.id}"></td>
+            <td class="col-sm-1" scope="col" th:utext="${listorg.fio}"></td>
+            <td class="col-sm-2" scope="col" th:utext="${listorg.adress}"></td>
+            <td class="col-sm" scope="col" th:utext="${listorg.receivingParty}"></td>
+            <td class="col-sm" scope="col" th:utext="${listorg.targetDate}"></td>
+            <td class="col-sm" scope="col" th:utext="${listorg.payer}"></td>
+
+    </table>
+
+
+
+
+</div>
+
+
+
+</body>
+</html>
