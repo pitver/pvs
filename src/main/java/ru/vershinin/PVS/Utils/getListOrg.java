@@ -1,9 +1,7 @@
 package ru.vershinin.PVS.Utils;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.*;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -15,17 +13,19 @@ public class getListOrg {
     public static void main(String[] args) {
 
         File file = new File("D:\\test\\t\\Отчёт по адресам.ods");
-        List generalList = ODSReader.readODS(file);
+        File file1 = new File("D:\\test\\t\\Список организаций.ods");
+        List generalList = ODSReader.readODSUnprocessed(file);
+        List<String> allOrg=ODSReader.readODSAllOrg(file1);
         try {
-            writeListToDB(generalList);
+            //writeListUnprocessedToDB(generalList);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
+            allOrg.stream().forEach(System.out::println);
 
     }
 
-    private static void writeListToDB(List<List<String>> gE) throws SQLException {
+    private static void writeListUnprocessedToDB(List<List<String>> gE) throws SQLException {
         Connection conn = DBConnect.connect();
         List<String> listFIO = gE.get(0);
         List<String> listAdress = gE.get(1);
@@ -55,6 +55,25 @@ public class getListOrg {
             System.out.println(e.getMessage());
         }
 
+    }
+    private static void writeListAllOrgToDB(){
+        Connection conn= DBConnect.connect();
+
+        /*String sql = "insert into public.list_unprocessed (fio,adress,receiving_party,target_date,payer) "
+                + "values ( ?, ?, ?, ?, ?)";
+
+
+        for (int i = 1; i < gE.get(0).size(); i++) {
+            try (PreparedStatement st = conn.prepareStatement(sql)) {*/
+
+
+        try {
+            conn.close();
+
+        } catch (
+                SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 
