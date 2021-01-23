@@ -21,7 +21,7 @@ public class ListUnprocessedController {
     private ListUnprocessedService listUnprocessedService;
 
 
-    @GetMapping("/listorg")
+    /*@GetMapping("/listorg")
     public String getListUnprocessed(Model model){
 
         List<ListUnprocessed> listUnprocesseds=listUnprocessedService.findAll();
@@ -29,5 +29,5 @@ public class ListUnprocessedController {
         model.addAttribute("Listunp",listUnprocesseds);
 
         return "listorg";
-    }
+    }*/
 }

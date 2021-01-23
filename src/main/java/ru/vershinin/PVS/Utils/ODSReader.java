@@ -6,7 +6,6 @@ import org.jopendocument.dom.spreadsheet.SpreadSheet;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,6 +14,7 @@ import java.util.List;
  * @author Вершинин Пётр
  */
 public class ODSReader {
+    private ODSReader() { }
 
     public static List<List<String>> readODSUnprocessed(File file) {
         SpreadSheet spreadsheet;
@@ -41,23 +41,22 @@ public class ODSReader {
                     cell = spreadsheet.getSheet(0).getCellAt(nColIndex, nRowIndex);
                     switch (nColIndex) {
                         case 0:
-                            tempListForRow0.add((String) cell.getValue());
+                            tempListForRow0.add(String.valueOf(cell.getValue()));
                             // System.out.println((String) cell.getValue());
                             break;
                         case 1:
-                            tempListForRow1.add((String) cell.getValue());
+                            tempListForRow1.add(String.valueOf(cell.getValue()));
                             break;
                         case 2:
-                            tempListForRow2.add((String) cell.getValue());
+                            tempListForRow2.add(String.valueOf(cell.getValue()));
                             break;
                         case 3:
-                            tempListForRow3.add((String) cell.getValue());
+                            tempListForRow3.add(String.valueOf(cell.getValue()));
                             break;
                         case 4:
-                            tempListForRow4.add((String) cell.getValue());
+                            tempListForRow4.add(String.valueOf(cell.getValue()));
                             break;
                     }
-
 
                 }
 
@@ -75,12 +74,15 @@ public class ODSReader {
         return tempList;
     }
 
-    public static List<String> readODSAllOrg(File file) {
+    public static List<List<String>> readODSAllOrg(File file) {
         SpreadSheet spreadsheet;
-        List<String> tempListAllOrg = new ArrayList<>();
+        List<List<String>> tempList = new ArrayList<>();
+        List<String> tempListForRow0 = new ArrayList<>();
+        List<String> tempListForRow1 = new ArrayList<>();
+        List<String> tempListForRow2 = new ArrayList<>();
+
         try {
             //Getting the 0th sheet for manipulation| pass sheet name as string
-
             spreadsheet = SpreadSheet.createFromFile(file);
 
             //Get row count and column count
@@ -93,13 +95,29 @@ public class ODSReader {
                 //Iterating through each column
                 for (int nColIndex = 0; nColIndex < nColCount; nColIndex++) {
                     cell = spreadsheet.getSheet(0).getCellAt(nColIndex, nRowIndex);
-                    tempListAllOrg.add((String) cell.getValue());
+
+                    switch (nColIndex) {
+                        case 0:
+                            tempListForRow0.add(String.valueOf(cell.getValue()));
+                            // System.out.println((String) cell.getValue());
+                            break;
+                        case 1:
+                            tempListForRow1.add(String.valueOf(cell.getValue()));
+                            break;
+                        case 2:
+                            tempListForRow2.add(String.valueOf(cell.getValue()));
+                            break;
+                    }
+
                 }
             }
-        }catch (Exception e){
+            tempList.add(tempListForRow0);
+            tempList.add(tempListForRow1);
+            tempList.add(tempListForRow2);
 
-            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-            return tempListAllOrg;
-        }
+        return tempList;
     }
+}

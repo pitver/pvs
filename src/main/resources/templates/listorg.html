@@ -15,6 +15,24 @@
     <table class="table table-bordered">
         <tr class="d-flex">
             <th class="col-sm-1" scope="col">id</th>
+            <th class="col-sm-1" scope="col">№</th>
+            <th class="col-sm-2" scope="col">Название организации</th>
+            <th class="col-sm" scope="col">ИНН</th>
+
+        </tr>
+
+        <tr class="d-flex" th:each=" listorg : ${Listorg}">
+            <td class="col-sm-1" scope="col" th:utext="${listorg.id}"></td>
+            <td class="col-sm-1" scope="col" th:utext="${listorg.num}"></td>
+            <td class="col-sm-2" scope="col" th:utext="${listorg.nameOrg}"></td>
+            <td class="col-sm" scope="col" th:utext="${listorg.inn}"></td>
+
+
+    </table>
+
+    <!--<table class="table table-bordered">
+        <tr class="d-flex">
+            <th class="col-sm-1" scope="col">id</th>
             <th class="col-sm-1" scope="col">ФИО гражданина</th>
             <th class="col-sm-2" scope="col">Адрес регистрации</th>
             <th class="col-sm" scope="col">Принимающая сторона</th>
@@ -31,7 +49,7 @@
             <td class="col-sm" scope="col" th:utext="${listorg.payer}"></td>
 
     </table>
-
+-->
 
 
 
