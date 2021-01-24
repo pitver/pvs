@@ -16,8 +16,21 @@ import java.util.List;
 @Service
 public class ListUnprocessedService {
 
-    @Autowired
-    private ListUnprocessedRepo listUnprocessedRepo;
+    private final ListUnprocessedRepo listUnprocessedRepo;
 
-    public  List<ListUnprocessed> findAll(){return listUnprocessedRepo.findAll();}
+    public ListUnprocessedService(ListUnprocessedRepo listUnprocessedRepo) {
+        this.listUnprocessedRepo = listUnprocessedRepo;
+    }
+
+    public List<ListUnprocessed> findAll() {
+        return listUnprocessedRepo.findAll();
+    }
+
+    public String coyntAllByAdressLike(String adress) {
+        return listUnprocessedRepo.countAllByAdressLike(adress);
+    }
+    public List<String> distinctAllByAdressLike(String adress) {
+        return listUnprocessedRepo.distinctAllByAdressLike(adress);
+    }
+
 }

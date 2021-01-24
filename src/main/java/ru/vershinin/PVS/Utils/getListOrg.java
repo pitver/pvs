@@ -3,6 +3,7 @@ package ru.vershinin.PVS.Utils;
 import java.io.File;
 import java.sql.*;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * getListOrg
@@ -17,8 +18,9 @@ public class getListOrg {
         List generalList = ODSReader.readODSUnprocessed(file);
         List allOrg = ODSReader.readODSAllOrg(file1);
         try {
-            //writeListUnprocessedToDB(generalList);
-            writeListAllOrgToDB(allOrg);
+           // writeListUnprocessedToDB(generalList);
+           // writeListAllOrgToDB(allOrg);
+
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -44,7 +46,7 @@ public class getListOrg {
 
                 st.setString(1, listFIO.get(i));
                 st.setString(2, listAdress.get(i));
-                st.setString(3, lisrReceivingParty.get(i));
+                st.setString(3, lisrReceivingParty.get(i).toUpperCase(Locale.ROOT));
                 st.setTimestamp(4, Timestamp.valueOf(listTargetDate.get(i)));
                 st.setString(5, listPayer.get(i));
                 st.execute();

@@ -1,5 +1,6 @@
 package ru.vershinin.PVS.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vershinin.PVS.model.ListOrg;
 import ru.vershinin.PVS.repos.ListOrgRepo;
@@ -15,11 +16,15 @@ public class ListOrgService {
     }
 
 
-    public List<ListOrg> findAll(){return listOrgRepo.findAll();}
 
-    public ListOrgRepo findAllByNameOrg(String nameOrg){return listOrgRepo.findAllByNameOrg(nameOrg);}
-    public ListOrgRepo findAllByNum(String num){return listOrgRepo.findAllByNum(num);}
-    public ListOrgRepo findAllByInn(String inn){return listOrgRepo.findAllByInn(inn);}
+
+    public List<ListOrg> findAll(){return listOrgRepo.findAll();}
+    public List<String>findAllNameOrg(){return listOrgRepo.findAllNameOrg();}
+
+
+
+
+
 
 
 }
