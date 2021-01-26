@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container col-sm-10">
+
+
+    <table class="table table-bordered">
+        <tr class="d-flex">
+
+            <th class="col-sm-1" scope="col">№</th>
+            <th class="col-sm-1" scope="col">Название организации</th>
+            <th class="col-sm-1" scope="col">ИНН</th>
+            <th class="col-sm-4" scope="col">Адрес постановки на мигр. Учет</th>
+            <th class="col-sm-1" scope="col">Кол-во чел.</th>
+            <th class="col-sm-1" scope="col">Примечание</th>
+            <th class="col-sm-1" scope="col">Подача</th>
+            <th class="col-sm-1" scope="col">Сигнал</th>
+            <th class="col-sm-1" scope="col">Прогноз</th>
+
+        </tr>
+
+        <tr class="d-flex" th:each=" listorg : ${listall}">
+            <td class="col-sm-1" scope="col" th:utext="${listorg.numberOrganization}"></td>
+            <td class="col-sm-1" scope="col" th:utext="${listorg.nameOrganization}"></td>
+            <td class="col-sm-1" scope="col" th:utext="${listorg.inn}"></td>
+            <td class="col-sm-4" scope="col" th:utext="${listorg.adressMigrate}"></td>
+            <td class="col-sm-1" scope="col" th:utext="${listorg.countPep}"></td>
+            <td class="col-sm-1" scope="col" th:utext="${listorg.description}"></td>
+            <td class="col-sm-1" scope="col" th:utext="${listorg.feedType}"></td>
+            <td class="col-sm-1" scope="col" th:utext="${listorg.signal}"></td>
+            <td class="col-sm-1" scope="col" th:utext="${listorg.forecast}"></td>
+
+
+    </table>
+
+
+
+
+
+</div>
+
+
+
+</body>
+</html>

@@ -18,14 +18,14 @@ public class getListOrg {
         List generalList = ODSReader.readODSUnprocessed(file);
         List allOrg = ODSReader.readODSAllOrg(file1);
         try {
-           // writeListUnprocessedToDB(generalList);
-           // writeListAllOrgToDB(allOrg);
+            // writeListUnprocessedToDB(generalList);
+            //  writeListAllOrgToDB(allOrg);
 
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-       // allOrg.stream().forEach(System.out::println);
+        // allOrg.stream().forEach(System.out::println);
         // generalList.stream().forEach(System.out::println);
 
     }
@@ -52,17 +52,11 @@ public class getListOrg {
                 st.execute();
             }
         }
-        try {
-            conn.close();
-
-        } catch (
-                SQLException e) {
-            System.out.println(e.getMessage());
-        }
+        DBConnect.connectClose();
 
     }
 
-    private static void writeListAllOrgToDB(List<List<String>>listOrg) {
+    private static void writeListAllOrgToDB(List<List<String>> listOrg) {
         Connection conn = DBConnect.connect();
         List<String> listNum = listOrg.get(0);
         List<String> listNameOrg = listOrg.get(1);
@@ -88,14 +82,31 @@ public class getListOrg {
         }
 
 
-        try {
-            conn.close();
-
-        } catch (
-                SQLException e) {
-            System.out.println(e.getMessage());
-        }
+        DBConnect.connectClose();
     }
 
+    public static void writeToDBProcessOrganization(String num, String nameOrg, String count, String inn, List<String> regAdress) throws SQLException {
+        Connection conn = DBConnect.connect();
+
+        String sql = "INSERT INTO public.processed_organizations" +
+                "(inn, adress_migrate, count_pep, name_organization, number_organization)" +
+                "VALUES (?, ?, ?, ?, ?);";
+
+
+
+            try (PreparedStatement st = conn.prepareStatement(sql)) {
+                st.setString(1, inn);
+                st.setString(2, String.valueOf(regAdress));
+                st.setString(3, count);
+                st.setString(4, nameOrg);
+                st.setString(5, num);
+
+                st.execute();
+            }
+
+            DBConnect.connectClose();
+
+
+    }
 
 }

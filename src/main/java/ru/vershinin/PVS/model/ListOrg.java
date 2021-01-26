@@ -56,4 +56,14 @@ public class ListOrg {
     public void setInn(String inn) {
         this.inn = inn;
     }
+
+    @Override
+    public String toString() {
+        return "ListOrg{" +
+                "id=" + id +
+                ", num='" + num + '\'' +
+                ", nameOrg='" + nameOrg + '\'' +
+                ", inn='" + inn + '\'' +
+                '}';
+    }
 }

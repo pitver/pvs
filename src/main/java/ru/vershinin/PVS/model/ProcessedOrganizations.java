@@ -1,9 +1,6 @@
 package ru.vershinin.PVS.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * ProcessedOrganizations
@@ -19,7 +16,8 @@ public class ProcessedOrganizations {
 
     private String numberOrganization;
     private String nameOrganization;
-    private String INN;
+    private String inn;
+    @Column(columnDefinition="text")
     private String adressMigrate;
     private String countPep;
     private String description;
@@ -30,10 +28,10 @@ public class ProcessedOrganizations {
     public ProcessedOrganizations() {
     }
 
-    public ProcessedOrganizations(String numberOrganization, String nameOrganization, String INN, String adressMigrate, String countPep, String description, String feedType, String signal, String forecast) {
+    public ProcessedOrganizations(String numberOrganization, String nameOrganization, String inn, String adressMigrate, String countPep, String description, String feedType, String signal, String forecast) {
         this.numberOrganization = numberOrganization;
         this.nameOrganization = nameOrganization;
-        this.INN = INN;
+        this.inn = inn;
         this.adressMigrate = adressMigrate;
         this.countPep = countPep;
         this.description = description;
@@ -66,12 +64,12 @@ public class ProcessedOrganizations {
         this.nameOrganization = nameOrganization;
     }
 
-    public String getINN() {
-        return INN;
+    public String getInn() {
+        return inn;
     }
 
-    public void setINN(String INN) {
-        this.INN = INN;
+    public void setInn(String inn) {
+        this.inn = inn;
     }
 
     public String getAdressMigrate() {
