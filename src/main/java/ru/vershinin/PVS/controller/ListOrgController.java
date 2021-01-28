@@ -74,7 +74,7 @@ public class ListOrgController {
 
         //System.out.println(adress + "--- " + count+ "-- "+regAdress);
         //System.out.println(num + "-- " + nameOrg + "-- " + count + "-- " +inn + "-- " +  regAdress);
-       // getListOrg.writeToDBProcessOrganization(num, nameOrg,count,inn,regAdress);
+        getListOrg.writeToDBProcessOrganization(num, nameOrg,count,inn,regAdress);
     }
 
     private String getAbbrBeforeSpace(String abb) {

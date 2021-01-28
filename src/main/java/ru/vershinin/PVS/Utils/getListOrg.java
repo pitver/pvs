@@ -52,7 +52,7 @@ public class getListOrg {
                 st.execute();
             }
         }
-        DBConnect.connectClose();
+        conn.close();
 
     }
 
@@ -82,21 +82,28 @@ public class getListOrg {
         }
 
 
-        DBConnect.connectClose();
+        try {
+            conn.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public static void writeToDBProcessOrganization(String num, String nameOrg, String count, String inn, List<String> regAdress) throws SQLException {
         Connection conn = DBConnect.connect();
+        StringBuilder sb=new StringBuilder();
 
         String sql = "INSERT INTO public.processed_organizations" +
                 "(inn, adress_migrate, count_pep, name_organization, number_organization)" +
                 "VALUES (?, ?, ?, ?, ?);";
 
-
+        for (String s:regAdress) {
+            sb.append(s+"@");
+        }
 
             try (PreparedStatement st = conn.prepareStatement(sql)) {
                 st.setString(1, inn);
-                st.setString(2, String.valueOf(regAdress));
+                st.setString(2, sb.toString());
                 st.setString(3, count);
                 st.setString(4, nameOrg);
                 st.setString(5, num);
@@ -104,7 +111,7 @@ public class getListOrg {
                 st.execute();
             }
 
-            DBConnect.connectClose();
+            conn.close();
 
 
     }

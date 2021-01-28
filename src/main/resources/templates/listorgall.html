@@ -9,7 +9,14 @@
 </head>
 <body>
 
-<div class="container col-sm-10">
+<script>
+
+    function test(val) {
+        alert(val)
+    }
+</script>
+
+<div class="container col-sm-12">
 
 
     <table class="table table-bordered">
@@ -31,7 +38,15 @@
             <td class="col-sm-1" scope="col" th:utext="${listorg.numberOrganization}"></td>
             <td class="col-sm-1" scope="col" th:utext="${listorg.nameOrganization}"></td>
             <td class="col-sm-1" scope="col" th:utext="${listorg.inn}"></td>
-            <td class="col-sm-4" scope="col" th:utext="${listorg.adressMigrate}"></td>
+            <td class="col-sm-4" scope="col">
+                <script th:inline="javascript">
+                    var val = [[${listorg.adressMigrate}]].toString();
+                    var re = /@/gi;
+                    var newstr = val.replace(re, '<br>');
+                    document.write(newstr);
+
+                </script>
+            </td>
             <td class="col-sm-1" scope="col" th:utext="${listorg.countPep}"></td>
             <td class="col-sm-1" scope="col" th:utext="${listorg.description}"></td>
             <td class="col-sm-1" scope="col" th:utext="${listorg.feedType}"></td>
@@ -42,11 +57,7 @@
     </table>
 
 
-
-
-
 </div>
-
 
 
 </body>

@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@lombok.Data
 @Entity
 public class ListOrg {
     @Id
@@ -25,45 +26,4 @@ public class ListOrg {
         this.inn = inn;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNum() {
-        return num;
-    }
-
-    public void setNum(String num) {
-        this.num = num;
-    }
-
-    public String getNameOrg() {
-        return nameOrg;
-    }
-
-    public void setNameOrg(String nameOrg) {
-        this.nameOrg = nameOrg;
-    }
-
-    public String getInn() {
-        return inn;
-    }
-
-    public void setInn(String inn) {
-        this.inn = inn;
-    }
-
-    @Override
-    public String toString() {
-        return "ListOrg{" +
-                "id=" + id +
-                ", num='" + num + '\'' +
-                ", nameOrg='" + nameOrg + '\'' +
-                ", inn='" + inn + '\'' +
-                '}';
-    }
 }
