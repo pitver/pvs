@@ -19,6 +19,7 @@ public class ListOrgService {
 
 
     public List<ListOrg> findAll(){return listOrgRepo.findAll();}
+    public void deleteAll(){listOrgRepo.deleteAll();}
     public List<String>findAllNameOrg(){return listOrgRepo.findAllNameOrg();}
 
 

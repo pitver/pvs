@@ -11,24 +11,27 @@ import java.util.Locale;
  * @author Вершинин Пётр
  */
 public class getListOrg {
-    public static void main(String[] args) {
 
-        File file = new File("D:\\test\\t\\Отчёт по адресам.ods");
-        File file1 = new File("D:\\test\\t\\Список организаций.ods");
-        List generalList = ODSReader.readODSUnprocessed(file);
-        List allOrg = ODSReader.readODSAllOrg(file1);
+    public static void writeDBOfType(int type) {
+
+        File fReportOrg = new File("D:\\test\\t\\Отчёт по адресам.ods");
+        File fListOrg = new File("D:\\test\\t\\Список организаций.ods");
+
+        List generalList = ODSReader.readODSUnprocessed(fReportOrg);
+        List allOrg = ODSReader.readODSAllOrg(fListOrg);
         try {
-            // writeListUnprocessedToDB(generalList);
-            //  writeListAllOrgToDB(allOrg);
-
-
+            if(type==1){
+                 writeListAllOrgToDB(allOrg);
+            }else if(type==2){
+             writeListUnprocessedToDB(generalList);
+        }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        // allOrg.stream().forEach(System.out::println);
-        // generalList.stream().forEach(System.out::println);
 
     }
+
+
 
     private static void writeListUnprocessedToDB(List<List<String>> gE) throws SQLException {
         Connection conn = DBConnect.connect();
@@ -112,7 +115,6 @@ public class getListOrg {
             }
 
             conn.close();
-
 
     }
 
