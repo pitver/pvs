@@ -1,10 +1,13 @@
 package ru.vershinin.PVS.repos;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.vershinin.PVS.model.ListUnprocessed;
+
 
 import java.util.List;
 
@@ -14,9 +17,9 @@ import java.util.List;
  * @author Вершинин Пётр
  */
 @Repository
-public interface ListUnprocessedRepo  extends CrudRepository<ListUnprocessed,Long> {
+public interface ListUnprocessedRepo  extends PagingAndSortingRepository<ListUnprocessed,Long> {
 
-    List<ListUnprocessed> findAll();
+    Page<ListUnprocessed> findAll(Pageable pageable);
 
     @Query(value="SELECT count(*)FROM public.list_unprocessed where receiving_party LIKE '%' || :adress || '%'",nativeQuery = true)
     String countAllByAdressLike( @Param("adress")String adress);

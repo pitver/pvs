@@ -11,7 +11,11 @@
 <div th:replace="fragments/header :: header"/>
 
 
+
+
 <div class="container col-sm-10">
+
+
 
     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample">
@@ -39,20 +43,24 @@
     <table class="table table-bordered">
         <tr class="d-flex">
 
-            <th class="col-sm-1" scope="col">№</th>
-            <th class="col-sm-2" scope="col">Название организации</th>
-            <th class="col-sm" scope="col">ИНН</th>
+            <th class="col-sm-2" scope="col">ФИО гражданина</th>
+            <th class="col-sm-3" scope="col">Адрес регистрации</th>
+            <th class="col-sm-3" scope="col">Принимающая сторона</th>
+            <th class="col-sm-2" scope="col">Дата оказания услуги</th>
+            <th class="col-sm" scope="col">Плательщик</th>
 
         </tr>
 
-        <tr class="d-flex" th:each=" listorg : ${Listorg}">
-            <td class="col-sm-1" scope="col" th:utext="${listorg.num}"></td>
-            <td class="col-sm-2" scope="col" th:utext="${listorg.nameOrg}"></td>
-            <td class="col-sm" scope="col" th:utext="${listorg.inn}"></td>
+        <tr class="d-flex" th:each=" listorg : ${page}">
+            <td class="col-sm-2" scope="col" th:utext="${listorg.fio}"></td>
+            <td class="col-sm-3" scope="col" th:utext="${listorg.adress}"></td>
+            <td class="col-sm-3" scope="col" th:utext="${listorg.receivingParty}"></td>
+            <td class="col-sm-2" scope="col" th:utext="${listorg.targetDate}"></td>
+            <td class="col-sm" scope="col" th:utext="${listorg.payer}"></td>
 
 
     </table>
-
+    <div th:replace="fragments/paginable :: page"/>
 
 </div>
 
