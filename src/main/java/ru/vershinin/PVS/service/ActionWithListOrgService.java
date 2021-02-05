@@ -1,28 +1,38 @@
-package ru.vershinin.PVS.Utils;
+package ru.vershinin.PVS.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ru.vershinin.PVS.Utils.TypeOrg;
+import ru.vershinin.PVS.Utils.getListOrg;
 import ru.vershinin.PVS.model.ListOrg;
 import ru.vershinin.PVS.service.ListUnprocessedService;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
+@Service
+public class ActionWithListOrgService {
 
-public class ActionWithListOrg {
+    private final ListUnprocessedService listUnprocessedService;
 
-    @Autowired
-    private static ListUnprocessedService listUnprocessedService;
+    public ActionWithListOrgService(ListUnprocessedService listUnprocessedService) {
+        this.listUnprocessedService = listUnprocessedService;
+    }
 
-    private static void getCountAndRegAdress(String resultAfterSpace, String adress, String num, String nameOrg, String inn) throws SQLException {
-        String count = null;
-        List<String> regAdress = null;
-        count = listUnprocessedService.coyntAllByAdressLike(adress);
+    private  String getCount(String resultAfterSpace, String adress) {
+        String count;
+        count = listUnprocessedService.countAllByAdressLike(adress);
         if (count.equals("0")) {
-            count = listUnprocessedService.coyntAllByAdressLike(resultAfterSpace.toUpperCase(Locale.ROOT));
+            count = listUnprocessedService.countAllByAdressLike(resultAfterSpace.toUpperCase(Locale.ROOT));
             if (count.equals("0")) {
-                count = listUnprocessedService.coyntAllByAdressLike(resultAfterSpace.toUpperCase(Locale.ROOT).substring(1, 6));
+                count = listUnprocessedService.countAllByAdressLike(resultAfterSpace.toUpperCase(Locale.ROOT).substring(1, 6));
             }
         }
+        return count;
+    }
+
+    private  List<String> getRegAdress(String resultAfterSpace, String adress) {
+        List<String> regAdress;
         regAdress = listUnprocessedService.distinctAllByAdressLike(adress);
         if (regAdress.isEmpty()) {
             regAdress = listUnprocessedService.distinctAllByAdressLike(resultAfterSpace.toUpperCase(Locale.ROOT));
@@ -30,11 +40,10 @@ public class ActionWithListOrg {
                 regAdress = listUnprocessedService.distinctAllByAdressLike(resultAfterSpace.toUpperCase(Locale.ROOT).substring(1, 6));
             }
         }
-
-         getListOrg.writeToDBProcessOrganization(num, nameOrg,count,inn,regAdress);
+        return regAdress;
     }
 
-    private static String getAbbrBeforeSpace(String abb) {
+    private  String getAbbrBeforeSpace(String abb) {
         String resultBeforeSpace = null;
         String str;
         int end = abb.indexOf(' '); // ищем индекс первого пробела
@@ -46,7 +55,7 @@ public class ActionWithListOrg {
         return str;
     }
 
-    private static String getAbbrAfterSpace(String abb) {
+    private  String getAbbrAfterSpace(String abb) {
         String resultAfterSpace = null;
         int end = abb.indexOf(' '); // ищем индекс первого пробела
         if (end != -1) { // проверяем найдено ли (-1 = не найдено)
@@ -55,7 +64,7 @@ public class ActionWithListOrg {
         return resultAfterSpace;
     }
 
-    public static void preparingForRecording(List<ListOrg> listOrg, List<String> listNameOrg) {
+    public void preparingForRecording(List<ListOrg> listOrg, List<String> listNameOrg) {
         for (int i = 0; i < listOrg.size(); i++) {
 
             String num = listOrg.get(i).getNum();
@@ -66,7 +75,9 @@ public class ActionWithListOrg {
             String adress = resultBeforeSpace.toUpperCase(Locale.ROOT) + resultAfterSpace.toUpperCase(Locale.ROOT);
 
             try {
-               getCountAndRegAdress(resultAfterSpace, adress,num,nameOrg,inn);
+                String count = getCount(resultAfterSpace, adress);
+                List<String> regAdress= getRegAdress(resultAfterSpace, adress);
+                getListOrg.writeToDBProcessOrganization(num, nameOrg,count,inn,regAdress);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

@@ -21,10 +21,16 @@ public interface ListUnprocessedRepo  extends PagingAndSortingRepository<ListUnp
 
     Page<ListUnprocessed> findAll(Pageable pageable);
 
+
+    @Query(value="SELECT * FROM public.list_unprocessed where receiving_party LIKE '%' || :adress || '%'",nativeQuery = true)
+    Page<ListUnprocessed> findByReceivingParty(@Param("adress")String adress,Pageable pageable);
+
+
     @Query(value="SELECT count(*)FROM public.list_unprocessed where receiving_party LIKE '%' || :adress || '%'",nativeQuery = true)
     String countAllByAdressLike( @Param("adress")String adress);
 
     @Query(value ="SELECT DISTINCT adress FROM public.list_unprocessed where receiving_party LIKE '%' || :adress || '%' ",nativeQuery = true )
     List<String> distinctAllByAdressLike(@Param("adress")String adress);
+
 }
 

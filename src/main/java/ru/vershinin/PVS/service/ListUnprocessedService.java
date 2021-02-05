@@ -24,11 +24,18 @@ public class ListUnprocessedService {
         this.listUnprocessedRepo = listUnprocessedRepo;
     }
 
+    public void deleteAll(){
+        listUnprocessedRepo.deleteAll();
+    }
+
+    public Page<ListUnprocessed> findByReceivingPartyContains(String name,Pageable pageable){
+        return listUnprocessedRepo.findByReceivingParty(name,pageable);}
+
     public Page<ListUnprocessed> findAll(Pageable pageable) {
         return listUnprocessedRepo.findAll(pageable);
     }
 
-    public String coyntAllByAdressLike(String adress) {
+    public String countAllByAdressLike(String adress) {
         return listUnprocessedRepo.countAllByAdressLike(adress);
     }
     public List<String> distinctAllByAdressLike(String adress) {
