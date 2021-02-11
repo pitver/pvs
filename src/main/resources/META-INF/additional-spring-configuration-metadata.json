@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "spring.http.multipart.max-request-size",
+      "type": "java.lang.String",
+      "description": "Description for spring.http.multipart.max-request-size."
+    },
+    {
+      "name": "sping.datasourse.driver-class-name",
+      "type": "java.lang.String",
+      "description": "Description for sping.datasourse.driver-class-name."
+    }
+  ] }

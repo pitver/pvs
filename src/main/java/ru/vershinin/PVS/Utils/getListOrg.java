@@ -20,17 +20,16 @@ public class getListOrg {
         List generalList = ODSReader.readODSUnprocessed(fReportOrg);
         List allOrg = ODSReader.readODSAllOrg(fListOrg);
         try {
-            if(type==1){
-                 writeListAllOrgToDB(allOrg);
-            }else if(type==2){
-             writeListUnprocessedToDB(generalList);
-        }
+            if (type == 1) {
+                writeListAllOrgToDB(allOrg);
+            } else if (type == 2) {
+                writeListUnprocessedToDB(generalList);
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
     }
-
 
 
     private static void writeListUnprocessedToDB(List<List<String>> gE) throws SQLException {
@@ -44,77 +43,74 @@ public class getListOrg {
                 + "values ( ?, ?, ?, ?, ?)";
 
         System.out.println(gE.get(0).size());
-        for (int i = 1; i < gE.get(0).size(); i++) {
-            try (PreparedStatement st = conn.prepareStatement(sql)) {
+        PreparedStatement st = conn.prepareStatement(sql);
 
-                st.setString(1, listFIO.get(i));
-                st.setString(2, listAdress.get(i));
-                st.setString(3, lisrReceivingParty.get(i).toUpperCase(Locale.ROOT));
-                st.setTimestamp(4, Timestamp.valueOf(listTargetDate.get(i)));
-                st.setString(5, listPayer.get(i));
-                st.execute();
-            }
+        for (int i = 1; i < gE.get(0).size(); i++) {
+
+
+            st.setString(1, listFIO.get(i));
+            st.setString(2, listAdress.get(i));
+            st.setString(3, lisrReceivingParty.get(i).toUpperCase(Locale.ROOT));
+            st.setTimestamp(4, Timestamp.valueOf(listTargetDate.get(i)));
+            st.setString(5, listPayer.get(i));
+            st.addBatch();
+            // st.execute();
+
         }
+        st.executeBatch();
+        st.close();
         conn.close();
 
     }
 
-    private static void writeListAllOrgToDB(List<List<String>> listOrg) {
+    private static void writeListAllOrgToDB(List<List<String>> listOrg) throws SQLException {
         Connection conn = DBConnect.connect();
         List<String> listNum = listOrg.get(0);
         List<String> listNameOrg = listOrg.get(1);
-        List<String> lisrInn = listOrg.get(2);
+        List<String> listInn = listOrg.get(2);
 
         String sql = "insert into public.list_org (num,name_org,inn) "
                 + "values ( ?, ?, ?)";
 
-
+        PreparedStatement st = conn.prepareStatement(sql);
         for (int i = 1; i < listOrg.get(0).size(); i++) {
-            try (PreparedStatement st = conn.prepareStatement(sql)) {
-
-                st.setString(1, listNum.get(i));
-                st.setString(2, listNameOrg.get(i));
-                st.setString(3, lisrInn.get(i));
-
-                st.execute();
 
 
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            st.setString(1, listNum.get(i));
+            st.setString(2, listNameOrg.get(i));
+            st.setString(3, listInn.get(i));
+            st.addBatch();
+            // st.execute();
+
         }
+        st.executeBatch();
+        st.close();
+        conn.close();
 
-
-        try {
-            conn.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
     public static void writeToDBProcessOrganization(String num, String nameOrg, String count, String inn, List<String> regAdress) throws SQLException {
         Connection conn = DBConnect.connect();
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
         String sql = "INSERT INTO public.processed_organizations" +
                 "(inn, adress_migrate, count_pep, name_organization, number_organization)" +
                 "VALUES (?, ?, ?, ?, ?);";
 
-        for (String s:regAdress) {
-            sb.append(s+"@");
+        for (String s : regAdress) {
+            sb.append(s + "@");
         }
 
-            try (PreparedStatement st = conn.prepareStatement(sql)) {
-                st.setString(1, inn);
-                st.setString(2, sb.toString());
-                st.setString(3, count);
-                st.setString(4, nameOrg);
-                st.setString(5, num);
+        try (PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setString(1, inn);
+            st.setString(2, sb.toString());
+            st.setString(3, count);
+            st.setString(4, nameOrg);
+            st.setString(5, num);
+            st.execute();
+        }
 
-                st.execute();
-            }
-
-            conn.close();
+        conn.close();
 
     }
 
