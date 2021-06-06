@@ -17,12 +17,14 @@ public class getListOrg {
         File fReportOrg = new File("D:\\test\\t\\Отчёт по адресам.ods");
         File fListOrg = new File("D:\\test\\t\\Список организаций.ods");
 
-        List generalList = ODSReader.readODSUnprocessed(fReportOrg);
-        List allOrg = ODSReader.readODSAllOrg(fListOrg);
+
+
         try {
             if (type == 1) {
+                List allOrg = ODSReader.readODSAllOrg(fListOrg);
                 writeListAllOrgToDB(allOrg);
             } else if (type == 2) {
+                List generalList = ODSReader.readODSUnprocessed(fReportOrg);
                 writeListUnprocessedToDB(generalList);
             }
         } catch (Exception e) {

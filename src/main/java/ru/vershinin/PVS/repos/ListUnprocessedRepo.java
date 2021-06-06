@@ -17,20 +17,34 @@ import java.util.List;
  * @author Вершинин Пётр
  */
 @Repository
-public interface ListUnprocessedRepo  extends PagingAndSortingRepository<ListUnprocessed,Long> {
+public interface ListUnprocessedRepo extends PagingAndSortingRepository<ListUnprocessed, Long> {
 
     Page<ListUnprocessed> findAll(Pageable pageable);
 
 
-    @Query(value="SELECT * FROM public.list_unprocessed where receiving_party LIKE '%' || :adress || '%'",nativeQuery = true)
-    Page<ListUnprocessed> findByReceivingParty(@Param("adress")String adress,Pageable pageable);
+    @Query(value = "SELECT * FROM public.list_unprocessed where receiving_party " +
+            "LIKE '%' || :adress || '%'", nativeQuery = true)
+    Page<ListUnprocessed> findByReceivingParty(@Param("adress") String adress, Pageable pageable);
 
 
-    @Query(value="SELECT count(*)FROM public.list_unprocessed where receiving_party LIKE '%' || :adress || '%'",nativeQuery = true)
-    String countAllByAdressLike( @Param("adress")String adress);
+    @Query(value = "SELECT count(*)FROM public.list_unprocessed where receiving_party " +
+            "LIKE '%' || :adress || '%'", nativeQuery = true)
+    String countAllByAdressLike(@Param("adress") String adress);
 
-    @Query(value ="SELECT DISTINCT adress FROM public.list_unprocessed where receiving_party LIKE '%' || :adress || '%' ",nativeQuery = true )
-    List<String> distinctAllByAdressLike(@Param("adress")String adress);
+    @Query(value = "SELECT DISTINCT adress FROM public.list_unprocessed where receiving_party " +
+            "LIKE '%' || :adress || '%' ", nativeQuery = true)
+    List<String> distinctAllByAdressLike(@Param("adress") String adress);
+
+
+    @Query(value = "SELECT distinct regexp_replace(receiving_party, '(.*)\\s.*','\\1')\n" +
+            "\tFROM public.list_unprocessed ", nativeQuery = true)
+    List<String> findListPreparedOrganizations();
+
+    @Query(value = "SELECT adress, count(*) as adres_count\n" +
+            "\tFROM public.list_unprocessed where receiving_party \n" +
+            "\t'%' || :nameOrg || '%' \n" +
+            "\tgroup by adress;",nativeQuery = true)
+    List<String> findMassReOrg(@Param("nameOrg" )String nameOrg);
 
 }
 
