@@ -34,7 +34,7 @@ public class MasRegProcedureService {
 
 
             list.add(Collections.singletonList(nameOrg));
-            list.add(listUnprocessedRepo.findMassReOrg());
+            list.add(listUnprocessedRepo.findMassReOrg(nameOrg));
 
 
         }
