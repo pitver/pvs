@@ -1,8 +1,11 @@
 package ru.vershinin.PVS.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.vershinin.PVS.service.MasRegProcedureService;
+
+import java.util.Map;
 
 /**
  * MassRegController
@@ -19,9 +22,10 @@ public class MassRegController {
     }
 
     @GetMapping("/masreg")
-    public String getMassReg(){
+    public String getMassReg(Model model){
 
-masRegProcedureService.masReg();
-        return "redirect:/listorg";
+        Map<String, Object> mapRegOrg = masRegProcedureService.masReg();
+        model.addAttribute("mapRegOrg",mapRegOrg);
+        return "/masreg";
     }
 }

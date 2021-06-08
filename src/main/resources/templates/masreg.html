@@ -39,16 +39,16 @@
     <table class="table table-bordered">
         <tr class="d-flex">
 
-            <th class="col-sm-1" scope="col">№</th>
-            <th class="col-sm-2" scope="col">Название организации</th>
-            <th class="col-sm" scope="col">ИНН</th>
+            <th class="col-sm-1" scope="col">Название организации</th>
+            <th class="col-sm-2" scope="col">адрес</th>
+
 
         </tr>
 
-        <tr class="d-flex" th:each=" listorg : ${Listorg}">
-            <td class="col-sm-1" scope="col" th:utext="${listorg.num}"></td>
-            <td class="col-sm-2" scope="col" th:utext="${listorg.nameOrg}"></td>
-            <td class="col-sm" scope="col" th:utext="${listorg.inn}"></td>
+        <tr class="d-flex" th:each=" mapRegOrg : ${mapRegOrg}">
+            <td class="col-sm-2" scope="col" th:utext="${mapRegOrg.key}"></td>
+            <td class="col-sm-4" scope="col" th:utext="${mapRegOrg.value}"></td>
+
 
 
     </table>

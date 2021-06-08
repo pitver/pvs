@@ -5,9 +5,7 @@ import ru.vershinin.PVS.repos.ListUnprocessedRepo;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MasRegProcedureService {
@@ -26,19 +24,19 @@ public class MasRegProcedureService {
         return listPreparedOrganizations;
     }
 
-    public void masReg() {
+    public Map<String, Object> masReg() {
         List<String> listPrepOrg = getListPrepOrg();
-        List<List<String>> list = new ArrayList<>();
+        Map<String, Object> map = new HashMap();
+        int k=0;
 
-        for (String nameOrg : listPrepOrg) {
+        for (int i = 0; i < listPrepOrg.size(); i++) {
 
-
-            list.add(Collections.singletonList(nameOrg));
-            list.add(listUnprocessedRepo.findMassReOrg(nameOrg));
-
-
+            map.put(String.valueOf(listPrepOrg.get(i)), listUnprocessedRepo.findMassReOrg(String.valueOf(listPrepOrg.get(i))));
+            System.out.println(k++);
         }
-        list.stream().forEach(System.out::println);
 
+       map.entrySet().stream().forEach(System.out::println);
+
+        return map;
     }
 }

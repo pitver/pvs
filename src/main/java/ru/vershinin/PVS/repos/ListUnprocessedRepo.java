@@ -45,28 +45,26 @@ public interface ListUnprocessedRepo extends PagingAndSortingRepository<ListUnpr
             "LIKE '%' || :nameOrg || '%' group by adress;",nativeQuery = true)
     List<String> findMassReOrg(@Param("nameOrg" )String nameOrg);
 
-   /* @Query(value = "DO $$
-
-    DECLARE
-        rec TEXT;
-
-    BEGIN
-        FOR rec IN
-            SELECT distinct regexp_replace(receiving_party, '(.*)\s.*','\1')
-            FROM public.list_unprocessed
-
-            LOOP
-				Insert Into public.mas_reg(name_org,adress,adres_count)
-				SELECT distinct regexp_replace(receiving_party, '(.*)\s.*','\1'),adress, count(*) as adres_count
-                FROM public.list_unprocessed
-                where receiving_party
-                Like '%' ||rec|| '%' group by receiving_party,adress;
-
-
-            END LOOP;
-
-    END
-    $$;",nativeQuery = true)
+    /*@Query(value =
+            "DO $$\n" +
+                    "\n" +
+                    "    DECLARE\n" +
+                    "        rec TEXT;\n" +
+                    "\n" +
+                    "    BEGIN\n" +
+                    "        FOR rec IN\n" +
+                    "            SELECT distinct regexp_replace(receiving_party, '(.*)\\s.*','\\1')\n" +
+                    "            FROM public.list_unprocessed\n" +
+                    "            LOOP\n" +
+                    "Insert Into public.mas_reg(name_org,adress,adres_count)\n" +
+                    "tSELECT distinct regexp_replace(receiving_party, '(.*)\\s.*','\\1'),adress, count(*) as adres_count\n" +
+                    "                FROM public.list_unprocessed\n" +
+                    "                where receiving_party\n" +
+                    "                Like '%' ||rec|| '%' group by receiving_party,adress;\n" +
+                    "            ENDLOOP;\n" +
+                    "\n" +
+                    "    END\n" +
+                    "    $$;",nativeQuery = true)
     List<String> findMassReOrg();*/
 
 
