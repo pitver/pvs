@@ -29,13 +29,16 @@ public class MasRegProcedureService {
         Map<String, Object> map = new HashMap();
         int k=0;
 
-        for (int i = 0; i < listPrepOrg.size(); i++) {
+
+       for (int i = 0; i < listPrepOrg.size(); i++) {
 
             map.put(String.valueOf(listPrepOrg.get(i)), listUnprocessedRepo.findMassReOrg(String.valueOf(listPrepOrg.get(i))));
             System.out.println(k++);
+
+
         }
 
-       map.entrySet().stream().forEach(System.out::println);
+      // map.entrySet().stream().forEach(System.out::println);
 
         return map;
     }

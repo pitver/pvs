@@ -40,7 +40,7 @@ public interface ListUnprocessedRepo extends PagingAndSortingRepository<ListUnpr
             "\tFROM public.list_unprocessed ", nativeQuery = true)
     List<String> findListPreparedOrganizations();
 
-    @Query(value = "SELECT adress,count(*) as adres_count" +
+    @Query(value = "SELECT adress,count(*)||'#' as adres_count" +
             " FROM public.list_unprocessed where receiving_party " +
             "LIKE '%' || :nameOrg || '%' group by adress;",nativeQuery = true)
     List<String> findMassReOrg(@Param("nameOrg" )String nameOrg);

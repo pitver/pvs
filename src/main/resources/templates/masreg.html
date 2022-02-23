@@ -11,8 +11,8 @@
 <div th:replace="fragments/header :: header"/>
 
 
-<div class="container col-sm-10">
-    <div class="mt-3 mb-3">
+<div class="container col-sm-12">
+  <!--  <div class="mt-3 mb-3">
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
                 aria-expanded="false" aria-controls="collapseExample">
             загрузить список организаций
@@ -34,20 +34,88 @@
 
             </div>
         </div>
-    </div>
+    </div>-->
 
     <table class="table table-bordered">
         <tr class="d-flex">
 
-            <th class="col-sm-1" scope="col">Название организации</th>
-            <th class="col-sm-2" scope="col">адрес</th>
+            <th class="col-sm-4" scope="col">Название организации</th>
+            <th class="col-sm-5" scope="col">адрес</th>
+            <th class="col-sm-2" scope="col">количество</th>
+            <th class="col-sm-1" scope="col">итого</th>
 
 
         </tr>
 
         <tr class="d-flex" th:each=" mapRegOrg : ${mapRegOrg}">
-            <td class="col-sm-2" scope="col" th:utext="${mapRegOrg.key}"></td>
-            <td class="col-sm-4" scope="col" th:utext="${mapRegOrg.value}"></td>
+            <td class="col-sm-4" scope="col" th:utext="${mapRegOrg.key}"></td>
+            <!--<td class="col-sm-4" scope="col" th:utext="${mapRegOrg.value}"></td>-->
+            <td class="col-sm-5" scope="col">
+                <script th:inline="javascript">
+                    var val = [[${mapRegOrg.value}]].toString();
+                    var re = /@,/gi;
+                    var posS = 0;//позиция @
+                    var posR = 0;//позиция #
+                    while (true) {
+                        let foundPosS = val.indexOf("@", posS);
+                        let foundPosR = val.indexOf("#", posR);
+                        if (foundPosS == -1) break;
+
+                        var prepStr1=val.slice(posS,foundPosS)
+
+                        document.write(prepStr1);
+                        document.write('<br>');
+                        var g= foundPosR-foundPosS
+                        posS = foundPosS + g+2;
+                        posR = foundPosR+ 1;
+                    }
+                </script>
+            </td>
+            <td class="col-sm-2" scope="col">
+                <script th:inline="javascript">
+                    var val = [[${mapRegOrg.value}]].toString();
+                    var re = /@,/gi;
+                    var posS = 0;//позиция @
+                    var posR = 0;//позиция #
+                    while (true) {
+                        let foundPosS = val.indexOf("@", posS);
+                        let foundPosR = val.indexOf("#", posR);
+                        if (foundPosS == -1) break;
+
+                        var prepStr1=val.slice(foundPosS+2,foundPosR)
+
+                        document.write(prepStr1);
+                        document.write('<br>');
+                        var g= foundPosR-foundPosS
+                        posS = foundPosS + 1;
+                        posR = foundPosR+ 1;
+                    }
+                </script>
+            </td>
+        <td class="col-sm-2" scope="col">
+            <script th:inline="javascript">
+                var val = [[${mapRegOrg.value}]].toString();
+                var re = /@,/gi;
+                var posS = 0;//позиция @
+                var posR = 0;//позиция #
+                var count=0;
+                while (true) {
+                    let foundPosS = val.indexOf("@", posS);
+                    let foundPosR = val.indexOf("#", posR);
+                    if (foundPosS == -1) break;
+
+                    var prepStr1=parseInt(val.slice(foundPosS+2,foundPosR));
+                   count=(count+prepStr1);
+
+
+                    var g= foundPosR-foundPosS
+                    posS = foundPosS + 1;
+                    posR = foundPosR+ 1;
+                }
+                document.write(count);
+            </script>
+        </td>
+
 
 
 

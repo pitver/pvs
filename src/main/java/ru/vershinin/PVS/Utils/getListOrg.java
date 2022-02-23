@@ -2,6 +2,7 @@ package ru.vershinin.PVS.Utils;
 
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -41,17 +42,22 @@ public class getListOrg {
         List<String> lisrReceivingParty = gE.get(2);
         List<String> listTargetDate = gE.get(3);
         List<String> listPayer = gE.get(4);
+       List<String> stringListTemp=new ArrayList<>();
+
         String sql = "insert into public.list_unprocessed (fio,adress,receiving_party,target_date,payer) "
                 + "values ( ?, ?, ?, ?, ?)";
 
         System.out.println(gE.get(0).size());
         PreparedStatement st = conn.prepareStatement(sql);
+        for (String s : listAdress) {
+            stringListTemp.add(s + "@");
+        }
 
         for (int i = 1; i < gE.get(0).size(); i++) {
 
 
             st.setString(1, listFIO.get(i));
-            st.setString(2, listAdress.get(i));
+            st.setString(2, stringListTemp.get(i));
             st.setString(3, lisrReceivingParty.get(i).toUpperCase(Locale.ROOT));
             st.setTimestamp(4, Timestamp.valueOf(listTargetDate.get(i)));
             st.setString(5, listPayer.get(i));
