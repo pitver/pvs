@@ -19,6 +19,7 @@ public class MasReg {
     private Long id;
 
     String nameOrg;
+    String inn;
     String adress;
     String adres_count;
 }

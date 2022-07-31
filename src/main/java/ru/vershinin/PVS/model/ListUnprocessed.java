@@ -25,6 +25,7 @@ public class ListUnprocessed {
     private String fio;
     private String adress;
     private String receivingParty;
+    private String inn;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDateTime targetDate;
     private String payer;
@@ -32,12 +33,13 @@ public class ListUnprocessed {
     public ListUnprocessed() {
     }
 
-    public ListUnprocessed(String fio, String adress, String receivingParty, LocalDateTime targetDate, String payer) {
+    public ListUnprocessed(Long id, String fio, String adress, String receivingParty, String inn, LocalDateTime targetDate, String payer) {
+        this.id = id;
         this.fio = fio;
         this.adress = adress;
         this.receivingParty = receivingParty;
+        this.inn = inn;
         this.targetDate = targetDate;
         this.payer = payer;
     }
-
 }

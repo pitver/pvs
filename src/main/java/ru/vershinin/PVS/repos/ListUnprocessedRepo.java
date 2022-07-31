@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import ru.vershinin.PVS.model.ListUnprocessed;
 
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -18,6 +20,7 @@ import java.util.List;
  */
 @Repository
 public interface ListUnprocessedRepo extends PagingAndSortingRepository<ListUnprocessed, Long> {
+
 
     Page<ListUnprocessed> findAll(Pageable pageable);
 
@@ -36,14 +39,21 @@ public interface ListUnprocessedRepo extends PagingAndSortingRepository<ListUnpr
     List<String> distinctAllByAdressLike(@Param("adress") String adress);
 
 
-    @Query(value = "SELECT distinct regexp_replace(receiving_party, '(.*)\\s.*','\\1')\n" +
+    /*@Query(value = "SELECT distinct regexp_replace(receiving_party, '(.*)\\s.*','\\1')\n" +
+            "\tFROM public.list_unprocessed ", nativeQuery = true)*/
+    @Query(value = "SELECT distinct receiving_party \n" +
             "\tFROM public.list_unprocessed ", nativeQuery = true)
     List<String> findListPreparedOrganizations();
 
-    @Query(value = "SELECT adress,count(*)||'#' as adres_count" +
+    @Query(value = "SELECT adress,inn||'*',count(*)||'#' as adres_count" +
             " FROM public.list_unprocessed where receiving_party " +
-            "LIKE '%' || :nameOrg || '%' group by adress;",nativeQuery = true)
-    List<String> findMassReOrg(@Param("nameOrg" )String nameOrg);
+            "LIKE '%' || :nameOrg || '%' AND inn ILIKE '%' || :inn || '%'group by adress,inn;",nativeQuery = true)
+    List<String> findMassReOrg(String nameOrg,String inn);
+
+    @Query(value = "SELECT adress,inn||'*',count(*)||'#' as adres_count" +
+            " FROM public.list_unprocessed where receiving_party " +
+            "LIKE '%' || :nameOrg || '%' group by adress,inn;",nativeQuery = true)
+    List<String> findMassReOrg(String nameOrg);
 
     /*@Query(value =
             "DO $$\n" +

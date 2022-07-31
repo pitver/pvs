@@ -12,36 +12,37 @@
 
 
 <div class="container col-sm-12">
-  <!--  <div class="mt-3 mb-3">
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
-                aria-expanded="false" aria-controls="collapseExample">
-            загрузить список организаций
-        </button>
+    <!--  <div class="mt-3 mb-3">
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
+                  aria-expanded="false" aria-controls="collapseExample">
+              загрузить список организаций
+          </button>
 
-        <div class="collapse " id="collapseExample">
-            <div class="form-group mt-3">
-                <form method="POST" enctype="multipart/form-data" action="/listorg">
+          <div class="collapse " id="collapseExample">
+              <div class="form-group mt-3">
+                  <form method="POST" enctype="multipart/form-data" action="/listorg">
 
-                    <div class="form-group">
-                        <label for="file">Список организаций: </label>
-                        <input type="file" class="form-control-file text-truncate" name="file" id="file">
-                    </div>
+                      <div class="form-group">
+                          <label for="file">Список организаций: </label>
+                          <input type="file" class="form-control-file text-truncate" name="file" id="file">
+                      </div>
 
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-primary" value="Загрузить">
-                    </div>
-                </form>
+                      <div class="form-group">
+                          <input type="submit" class="btn btn-primary" value="Загрузить">
+                      </div>
+                  </form>
 
-            </div>
-        </div>
-    </div>-->
+              </div>
+          </div>
+      </div>-->
 
     <table class="table table-bordered">
         <tr class="d-flex">
 
-            <th class="col-sm-4" scope="col">Название организации</th>
+            <th class="col-sm-4" scope="col">Принимающая сторона</th>
+            <th class="col-sm-1" scope="col">Инн</th>
             <th class="col-sm-5" scope="col">адрес</th>
-            <th class="col-sm-2" scope="col">количество</th>
+            <th class="col-sm-1" scope="col">количество</th>
             <th class="col-sm-1" scope="col">итого</th>
 
 
@@ -49,77 +50,137 @@
 
         <tr class="d-flex" th:each=" mapRegOrg : ${mapRegOrg}">
             <td class="col-sm-4" scope="col" th:utext="${mapRegOrg.key}"></td>
-            <!--<td class="col-sm-4" scope="col" th:utext="${mapRegOrg.value}"></td>-->
+            <td class="col-sm-1" scope="col">
+                <script th:inline="javascript">
+                    var val = [[${mapRegOrg.value}]].toString();
+                    var re = /@,/gi;
+                    var posS = 0;//позиция @
+                    var posZ = 0;//позиция *
+                    while (true) {
+                        let foundPosS = val.indexOf("@", posS);
+
+                        let foundPosZ = val.indexOf("*", posZ);
+
+                        if (foundPosS === -1) break;
+                        if (foundPosZ === -1) break;
+
+                        let prepStr1 = val.slice(foundPosS + 2, foundPosZ)
+
+                        document.write(prepStr1);
+                        document.write('<br>');
+
+
+                        let g = foundPosZ - foundPosS
+                        posS = foundPosS + g + 2;
+                        posZ = foundPosZ + 1;
+                    }
+                </script>
+            </td>
             <td class="col-sm-5" scope="col">
                 <script th:inline="javascript">
                     var val = [[${mapRegOrg.value}]].toString();
                     var re = /@,/gi;
                     var posS = 0;//позиция @
-                    var posR = 0;//позиция #
+                    var posR = 0;//позиция *
                     while (true) {
                         let foundPosS = val.indexOf("@", posS);
-                        let foundPosR = val.indexOf("#", posR);
-                        if (foundPosS == -1) break;
+                        let foundPosR = val.indexOf("*", posR);
+                        if (foundPosS === -1) break;
 
-                        var prepStr1=val.slice(posS,foundPosS)
+                        var prepStr1 = val.slice(posS, foundPosS)
 
-                        document.write(prepStr1);
+                        document.write(prepStr1.replaceAll(/,/g,"").replaceAll(/#/g,""));
                         document.write('<br>');
-                        var g= foundPosR-foundPosS
-                        posS = foundPosS + g+2;
-                        posR = foundPosR+ 1;
+                        var g = foundPosR - foundPosS
+                        posS = foundPosS + g + 5;
+
+                        posR = foundPosR + 1;
+
                     }
                 </script>
             </td>
-            <td class="col-sm-2" scope="col">
+            <td class="col-sm-1" scope="col">
                 <script th:inline="javascript">
                     var val = [[${mapRegOrg.value}]].toString();
                     var re = /@,/gi;
                     var posS = 0;//позиция @
                     var posR = 0;//позиция #
                     while (true) {
-                        let foundPosS = val.indexOf("@", posS);
+                        let foundPosS = val.indexOf("*", posS);
                         let foundPosR = val.indexOf("#", posR);
-                        if (foundPosS == -1) break;
+                        if (foundPosS === -1) break;
 
-                        var prepStr1=val.slice(foundPosS+2,foundPosR)
+                        var prepStr1 = val.slice(foundPosS + 2, foundPosR)
 
                         document.write(prepStr1);
                         document.write('<br>');
-                        var g= foundPosR-foundPosS
+                        let g = foundPosR - foundPosS
                         posS = foundPosS + 1;
-                        posR = foundPosR+ 1;
+                        posR = foundPosR + 1;
                     }
                 </script>
             </td>
-        <td class="col-sm-2" scope="col">
-            <script th:inline="javascript">
-                var val = [[${mapRegOrg.value}]].toString();
-                var re = /@,/gi;
-                var posS = 0;//позиция @
-                var posR = 0;//позиция #
-                var count=0;
-                while (true) {
-                    let foundPosS = val.indexOf("@", posS);
-                    let foundPosR = val.indexOf("#", posR);
-                    if (foundPosS == -1) break;
+            <td class="col-sm-1" scope="col">
+                <script th:inline="javascript">
+                    var val = [[${mapRegOrg.value}]].toString();
+                    var re = /@,/gi;
+                    var posS = 0;//позиция *
+                    var posR = 0;//позиция #
+                    var count = 0;
 
-                    var prepStr1=parseInt(val.slice(foundPosS+2,foundPosR));
-                   count=(count+prepStr1);
+                    while (true) {
+                        let foundPosS = val.indexOf("*", posS);
+                        let foundPosR = val.indexOf("#", posR);
+                        if (foundPosS === -1) break;
 
-
-                    var g= foundPosR-foundPosS
-                    posS = foundPosS + 1;
-                    posR = foundPosR+ 1;
-                }
-                document.write(count);
-            </script>
-        </td>
-
-
+                        let prepStr1 = parseInt(val.slice(foundPosS + 2, foundPosR))
+                        count = (count + prepStr1);
+                        let g = foundPosR - foundPosS
+                        posS = foundPosS + 1;
+                        posR = foundPosR + 1;
+                    }
+                    document.write(count);
+                </script>
+            </td>
 
 
     </table>
+    <a class="bot1"href="#"  onclick="export_to_excel()" >Экспорт</a>
+    <script>
+        function export_to_excel() {
+
+            var uri = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,',
+                template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' +
+                    'xmlns:x="urn:schemas-microsoft-com:office:excel" ' +
+                    'xmlns="http://www.w3.org/TR/REC-html40"><meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+
+            /*  template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" \n\
+                                      xmlns:x="urn:schemas-microsoft-com:office:excel" \n\
+                                       xmlns="urn:schemas-microsoft-com:office:spreadsheet" \n\
+                                       xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"\n\
+                                      xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]>\n\
+                                      <xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->\
+                                      </head><body><table>{table}</table></body></html>',*/
+
+            base64 = function (s) {
+                return window.btoa(unescape(encodeURIComponent(s)))
+            },
+                format = function (s, c) {
+                    return s.replace(/{(\w+)}/g, function (m, p) {
+                        return c[p];
+                    })
+                }
+            var tableExcel = document.getElementById("tableExcel").innerHTML;
+            var ctx = {
+                worksheet: name || '', table: tableExcel
+            };
+            var link = document.createElement("a");
+            link.download = "export.xls";
+            link.href = uri + base64(format(template, ctx))
+            link.click();
+        }
+
+    </script>
 
 
 </div>

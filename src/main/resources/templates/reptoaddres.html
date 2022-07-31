@@ -58,7 +58,8 @@
             <th class="col-sm" scope="col">№</th>
             <th class="col-sm-2" scope="col">ФИО гражданина</th>
             <th class="col-sm-3" scope="col">Адрес регистрации</th>
-            <th class="col-sm-3" scope="col">Принимающая сторона</th>
+            <th class="col-sm-2" scope="col">Принимающая сторона</th>
+            <th class="col-sm-1" scope="col">инн</th>
             <th class="col-sm-2" scope="col">Дата оказания услуги</th>
             <th class="col-sm" scope="col">Плательщик</th>
 
@@ -70,7 +71,8 @@
             <td class="col-sm" scope="col" th:utext="${iter.count}"></td>
             <td class="col-sm-2" scope="col" th:utext="${listorg.fio}"></td>
             <td class="col-sm-3" scope="col" th:utext="${listorg.adress}"></td>
-            <td class="col-sm-3" scope="col" th:utext="${listorg.receivingParty}"></td>
+            <td class="col-sm-2" scope="col" th:utext="${listorg.receivingParty}"></td>
+            <td class="col-sm-1" scope="col" th:utext="${listorg.inn}"></td>
             <td class="col-sm-2" scope="col" th:utext="${listorg.targetDate}"></td>
             <td class="col-sm" scope="col" th:utext="${listorg.payer}"></td>
 

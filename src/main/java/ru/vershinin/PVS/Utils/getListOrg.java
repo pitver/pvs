@@ -19,7 +19,6 @@ public class getListOrg {
         File fListOrg = new File("D:\\test\\t\\Список организаций.ods");
 
 
-
         try {
             if (type == 1) {
                 List allOrg = ODSReader.readODSAllOrg(fListOrg);
@@ -40,12 +39,13 @@ public class getListOrg {
         List<String> listFIO = gE.get(0);
         List<String> listAdress = gE.get(1);
         List<String> lisrReceivingParty = gE.get(2);
-        List<String> listTargetDate = gE.get(3);
-        List<String> listPayer = gE.get(4);
-       List<String> stringListTemp=new ArrayList<>();
+        List<String> listInn = gE.get(3);
+        List<String> listTargetDate = gE.get(4);
+        List<String> listPayer = gE.get(5);
+        List<String> stringListTemp = new ArrayList<>();
 
-        String sql = "insert into public.list_unprocessed (fio,adress,receiving_party,target_date,payer) "
-                + "values ( ?, ?, ?, ?, ?)";
+        String sql = "insert into public.list_unprocessed (fio,adress,receiving_party,inn,target_date,payer) "
+                + "values ( ?, ?, ?, ?, ?, ?)";
 
         System.out.println(gE.get(0).size());
         PreparedStatement st = conn.prepareStatement(sql);
@@ -59,8 +59,9 @@ public class getListOrg {
             st.setString(1, listFIO.get(i));
             st.setString(2, stringListTemp.get(i));
             st.setString(3, lisrReceivingParty.get(i).toUpperCase(Locale.ROOT));
-            st.setTimestamp(4, Timestamp.valueOf(listTargetDate.get(i)));
-            st.setString(5, listPayer.get(i));
+            st.setString(4, listInn.get(i).toUpperCase(Locale.ROOT));
+            st.setTimestamp(5, Timestamp.valueOf(listTargetDate.get(i)));
+            st.setString(6, listPayer.get(i));
             st.addBatch();
             // st.execute();
 
